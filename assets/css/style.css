@@ -1,0 +1,23 @@
+body {
+    background-image: url(https://upload.wikimedia.org/wikipedia/commons/thumb/f/f9/Declaration_of_Independence_%281819%29%2C_by_John_Trumbull.jpg/1200px-Declaration_of_Independence_%281819%29%2C_by_John_Trumbull.jpg);
+    background-size: cover;
+    color: white;
+    font-size: 20px;
+}
+
+.container-fluid {
+    background-color: maroon;
+}
+
+#title {
+    margin-top: 5%;
+    margin-bottom: 40px;
+}
+
+.separator {
+    padding: 15px 0 15px 0;
+}
+
+#question-div {
+    height: 100px;
+}
