@@ -14,10 +14,15 @@ body {
     margin-bottom: 40px;
 }
 
-.separator {
-    padding: 15px 0 15px 0;
+#quiz {
+    padding: 15px;
 }
 
-#question-div {
-    height: 100px;
+.answer {
+    padding: 5px;
+}
+
+.answer:hover {
+    background-color: white;
+    color: black;
 }

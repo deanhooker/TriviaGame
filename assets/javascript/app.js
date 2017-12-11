@@ -1,10 +1,10 @@
 //set variables
 //=====================================================================================================
-var wins;
-var losses;
+var wins = 0;
+var losses = 0;
 var theClock;
 var questionCounter = 0;
-var timer = 30;
+var timer = 12;
 
 var allQuestions = [
     {
@@ -15,7 +15,17 @@ var allQuestions = [
             c: "Thomas Jefferson",
             d: "James Madison"
         },
-        correctAnswer: "c"
+        correctAnswer: "Thomas Jefferson"
+    },
+    {
+        question: "What year was the US Constitution ratified?",
+        answers: {
+            a: "1776",
+            b: "1777",
+            c: "1781",
+            d: "1788"
+        },
+        correctAnswer: "1788"
     },
     {
         question: "Which of these founding fathers did not sign the U.S. Constitution?",
@@ -25,8 +35,48 @@ var allQuestions = [
             c: "Benjamin Franklin",
             d: "George Washington"
         },
-        correctAnswer: "d"
-    }
+        correctAnswer: "Thomas Jefferson"
+    },
+    {
+        question: "Which of these was one of the original 13 colonies?",
+        answers: {
+            a: "Maine",
+            b: "Vermont",
+            c: "West Virginia",
+            d: "Georgia"
+        },
+        correctAnswer: "Georgia"
+    },
+    {
+        question: "What year did Lewis and Clark set out on their famous expedition to reach the Pacific?",
+        answers: {
+            a: "1804",
+            b: "1812",
+            c: "1820",
+            d: "1826"
+        },
+        correctAnswer: "1804"
+    },
+    {
+        question: "Which of the following States does not have any territory acquired in the Lousiana Purchase?",
+        answers: {
+            a: "Colorado",
+            b: "Oklahoma",
+            c: "Tennessee",
+            d: "Minnesota"
+        },
+        correctAnswer: "Tennessee"
+    },
+    {
+        question: "Who was president during World War One?",
+        answers: {
+            a: "Woodrow Wilson",
+            b: "Dwight Eisenhower",
+            c: "Theodore Roosevelt",
+            d: "Calvin Coolidge"
+        },
+        correctAnswer: "Woodrow Wilson"
+    },
 ];
 //=====================================================================================================
 
@@ -40,21 +90,26 @@ function initialScreen() {
     $("#quiz").html(startScreen);
 }
 
-function generateTimeoutLoss() {
-
-}
-
 function generateWin() {
-
+    wins++;
+    $("#quiz").html("Correct!");
+    setTimeout(wait, 2500);
 }
 
 function generateLoss() {
-
+    losses++;
+    if (timer === 0) {
+        $("#quiz").html("Time's up!");
+    }
+    else {
+        $("#quiz").html("Wrong :(");
+    }
+    setTimeout(wait, 2500);
 }
 
 function generateHTML() {
 
-    gameHTML = "<p class='text-center timer-p'>Time Remaining: <span class='timer'>30</span> seconds.</p>"
+    gameHTML = "<p class='text-center timer-p'>Time Remaining: <span class='timer'>12</span> seconds.</p>"
         +
         "<p>" + allQuestions[questionCounter].question + "</p>"
         +
@@ -70,10 +125,11 @@ function generateHTML() {
 }
 
 function wait() {
-    if (questionCounter < allQuestions.length) {
+    console.log(questionCounter);
+    if (questionCounter < allQuestions.length -1) {
         questionCounter++;
         generateHTML();
-        timer = 30;
+        timer = 12;
         timerWrapper();
     }
     else {
@@ -86,7 +142,7 @@ function timerWrapper() {
     function timeLeft() {
         if (timer === 0) {
             clearInterval(theClock);
-            generateTimeoutLoss();
+            generateLoss();
         }
         if (timer > 0) {
             timer--;
@@ -96,14 +152,21 @@ function timerWrapper() {
 }
 
 function finalScreen() {
-
+    gameHTML = "<h2>Game Over!</h2>"
+        +
+        "<p>Correct Answers: " + wins + "</p>"
+        +
+        "<p>Incorrect Answers: " + losses + "</p>"
+        +
+        "<p class='text-center reset-button-container'><a class='btn btn-primary btn-lg btn-block reset-button' href='#' role='button'>Click to Play Again</a></p>";
+    $("#quiz").html(gameHTML);
 }
 
 function resetGame() {
     questionCounter = 0;
     wins = 0;
     losses = 0;
-    timer = 0;
+    timer = 12;
     generateHTML();
     timerWrapper();
 }
@@ -128,9 +191,9 @@ $(document).ready(function () {
 
     //When answer is clicked check if true. Win/lose accordingly
     $("body").on("click", ".answer", function (event) {
-        clickedAnswer = $(this).name;
+        clickedAnswer = $(this).text();
         console.log(clickedAnswer);
-        if (clickedAnswer === correctAnswer[questionCounter]) {
+        if (clickedAnswer === allQuestions[questionCounter].correctAnswer) {
             clearInterval(theClock);
             generateWin();
         }
@@ -138,11 +201,11 @@ $(document).ready(function () {
             clearInterval(theClock);
             generateLoss();
         }
+
     });
 
     //When game is over all restart
     $("body").on("click", ".reset-button", function () {
         resetGame();
     });
-
 });
